@@ -83,10 +83,10 @@ error:
 
 static PyObject *
 Sprite_move(SpriteObject *self)
-//{
-//    self->center_x = 0.0;
-//    self->center_x += self->change_x;
-//    self->center_y += self->change_y;
+{
+    // ERROR! The code below causes a crash
+    self->center_x += self->change_x;
+    self->center_y += self->change_y;
 }
 
 static PyMemberDef Sprite_members[] = {
