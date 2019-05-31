@@ -1,7 +1,9 @@
 #include <Python.h>
 #include <structmember.h>
 
-
+/**
+ * This is the structure that holds our Sprite object
+ */
 typedef struct {
     PyObject_HEAD
     float center_x;
@@ -12,6 +14,9 @@ typedef struct {
     PyObject *bar;
 } SpriteObject;
 
+/**
+ * Deallocate a sprite
+ */
 static void
 Sprite_dealloc(SpriteObject *self)
 {
@@ -20,6 +25,9 @@ Sprite_dealloc(SpriteObject *self)
     Py_TYPE(self)->tp_free((PyObject *) self);
 }
 
+/**
+ * Create a new sprite
+ */
 static PyObject *
 Sprite_new(PyTypeObject *type, PyObject *args, PyObject *kw)
 {
@@ -49,6 +57,9 @@ error:
     return (PyObject *) self;
 }
 
+/**
+ * __init__() method
+ */
 static int
 Sprite_init(SpriteObject *self, PyObject *args, PyObject *kw)
 {
@@ -81,6 +92,10 @@ error:
     return rc;
 }
 
+
+/**
+ * move() method
+ */
 static PyObject *
 Sprite_move(SpriteObject *self)
 {
@@ -89,6 +104,9 @@ Sprite_move(SpriteObject *self)
     self->center_y += self->change_y;
 }
 
+/**
+ * Hook up Sprite attributes to struct
+ */
 static PyMemberDef Sprite_members[] = {
     {"foo", T_OBJECT_EX, offsetof(SpriteObject, foo), 0, NULL},
     {"bar", T_OBJECT_EX, offsetof(SpriteObject, bar), 0, NULL},
@@ -99,11 +117,17 @@ static PyMemberDef Sprite_members[] = {
     {NULL}
 };
 
+/**
+ * Specify Sprite methods
+ */
 static PyMethodDef Sprite_methods[] = {
     {"move", (PyCFunction)Sprite_move, METH_NOARGS, NULL},
     {NULL, NULL, 0, NULL}
 };
 
+/**
+ * Specify Sprite class info
+ */
 static PyTypeObject SpriteType = {
     PyVarObject_HEAD_INIT(NULL, 0)
     .tp_name = "Sprite",
@@ -118,6 +142,9 @@ static PyTypeObject SpriteType = {
     .tp_methods = Sprite_methods
 };
 
+/**
+ * Specify the module the Sprite class is in
+ */
 static PyModuleDef module = {
     PyModuleDef_HEAD_INIT,
     "arcade.native",
@@ -126,6 +153,9 @@ static PyModuleDef module = {
     NULL
 };
 
+/**
+ * Main method to register Sprite
+ */
 PyMODINIT_FUNC
 PyInit_native(void)
 {
