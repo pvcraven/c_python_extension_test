@@ -102,6 +102,7 @@ Sprite_move(SpriteObject *self)
     // ERROR! The code below causes a crash
     self->center_x += self->change_x;
     self->center_y += self->change_y;
+    Py_RETURN_NONE;
 }
 
 /**

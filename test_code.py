@@ -30,3 +30,6 @@ def test_foo():
     assert foo.change_y == 1.5
 
     foo.move()
+
+    assert foo.center_x == 3.0
+    assert foo.center_y == 3.0
