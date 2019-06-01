@@ -1,8 +1,5 @@
 import arcade.native
 
-# def test_helloworld():
-#     return_value = arcade.native.helloworld()
-#     assert return_value is None
 
 def test_foo():
 

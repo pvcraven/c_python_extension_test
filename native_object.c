@@ -1,6 +1,7 @@
 #include <Python.h>
 #include <structmember.h>
 
+
 /**
  * This is the structure that holds our Sprite object
  */
@@ -13,6 +14,8 @@ typedef struct {
     PyObject *foo;
     PyObject *bar;
 } SpriteObject;
+
+
 
 /**
  * Deallocate a sprite
@@ -51,7 +54,7 @@ Sprite_new(PyTypeObject *type, PyObject *args, PyObject *kw)
 error:
     if (rc < 0) {
         Py_XDECREF(self->foo);
-        Py_XINCREF(self->bar);
+        Py_XDECREF(self->bar);
         Py_XDECREF(self);
     }
     return (PyObject *) self;
