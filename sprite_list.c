@@ -112,26 +112,11 @@ Custom_set_center_x(SpriteListObject *self, PyObject *value, void *closure)
     return 0;
 }
 
-/*
-static PyObject *
-Custom_get_item(SpriteListObject sample, int i) {
-    Py_RETURN_NONE;
-//  if (i<0) i+=sample.n;
-//  if (i>=sample.n) {
-//    PyErr_SetString(PyExc_IndexError, "sample index out of range");
-//    return NULL;
-//  }
-//  EXAMPLE e = sample.examples[i];
-//  return Py_BuildValue("OO", e.x.py_x, e.y.py_y);
-}
-*/
-
 /**
  * subscript methhod
  */
 static PyObject*
 Custom_subscript(SpriteListObject *self, PyObject *item) {
-    printf("\n***HI***\n");
     if (PyLong_Check(item)) {
         Py_RETURN_NONE;
     } else if (PySlice_Check(item)) {
@@ -164,7 +149,6 @@ static PyMemberDef SpriteList_members[] = {
  */
 static PyMethodDef SpriteList_methods[] = {
     {"move", (PyCFunction)SpriteList_move, METH_NOARGS, NULL},
-    {"__getitem__", (PyCFunction) Custom_get_item,  METH_O, NULL},
     {NULL, NULL, 0, NULL}
 };
 
@@ -189,7 +173,7 @@ static PyMappingMethods Sample_as_mapping = {
 /**
  * Specify Sprite class info
  */
-static PyTypeObject SpriteListType = {
+PyTypeObject SpriteListType = {
     PyVarObject_HEAD_INIT(NULL, 0)
     .tp_name = "SpriteList",
     .tp_doc = "SpriteList doc",
@@ -205,29 +189,3 @@ static PyTypeObject SpriteListType = {
     .tp_as_mapping = &Sample_as_mapping,
 };
 
-/**
- * Specify the module the Sprite class is in
- */
-static PyModuleDef module = {
-    PyModuleDef_HEAD_INIT,
-    "arcade.native",
-    NULL,
-    -1,
-    NULL
-};
-
-/**
- * Main method to register Sprite
- */
-PyMODINIT_FUNC
-PyInit_native(void)
-{
-    PyObject *m = NULL;
-    if (PyType_Ready(&SpriteListType) < 0)
-        return NULL;
-    if ((m = PyModule_Create(&module)) == NULL)
-        return NULL;
-    Py_XINCREF(&SpriteListType);
-    PyModule_AddObject(m, "SpriteList", (PyObject *) &SpriteListType);
-    return m;
-}

@@ -3,30 +3,13 @@ import arcade.native
 
 def test_foo():
 
-    foo = arcade.native.Sprite()
-    print(foo.bar)
-
-    assert foo.bar == ""
-    foo.bar = "foo"
-    assert foo.bar == "foo"
-
+    foo = arcade.native.SpriteList()
     assert foo.center_x == 0.0
-    foo.center_x = 1.5
-    assert foo.center_x == 1.5
-
-    assert foo.center_y == 0.0
-    foo.center_y = 1.5
-    assert foo.center_y == 1.5
-
-    assert foo.change_x == 0.0
-    foo.change_x = 1.5
-    assert foo.change_x == 1.5
-
-    assert foo.change_y == 0.0
-    foo.change_y = 1.5
-    assert foo.change_y == 1.5
-
+    foo.center_x = 2.0
+    assert foo.center_x == 2.0
     foo.move()
-
-    assert foo.center_x == 3.0
-    assert foo.center_y == 3.0
+    dir(foo)
+    x = arcade.native.SpriteList.__getitem__(foo, 1)
+    y = foo[0]
+    print(f"Hi: {x} {y}")
+    print(foo[0])
