@@ -84,12 +84,18 @@ SpriteList_init(SpriteListObject *self, PyObject *args, PyObject *kw)
     return rc;
 }
 
+/**
+ * get_center_x method
+ */
 static PyObject *
 Custom_get_center_x(SpriteListObject *self, void *closure)
 {
     return PyFloat_FromDouble(self->sprite_data->center_x);
 }
 
+/**
+ * set_center_x method
+ */
 static int
 Custom_set_center_x(SpriteListObject *self, PyObject *value, void *closure)
 {
@@ -106,7 +112,7 @@ Custom_set_center_x(SpriteListObject *self, PyObject *value, void *closure)
     return 0;
 }
 
-
+/*
 static PyObject *
 Custom_get_item(SpriteListObject sample, int i) {
     Py_RETURN_NONE;
@@ -118,7 +124,11 @@ Custom_get_item(SpriteListObject sample, int i) {
 //  EXAMPLE e = sample.examples[i];
 //  return Py_BuildValue("OO", e.x.py_x, e.y.py_y);
 }
+*/
 
+/**
+ * subscript methhod
+ */
 static PyObject*
 Custom_subscript(SpriteListObject *self, PyObject *item) {
     printf("\n***HI***\n");
@@ -158,16 +168,22 @@ static PyMethodDef SpriteList_methods[] = {
     {NULL, NULL, 0, NULL}
 };
 
+/**
+ * Specify sprite getters/setters
+ */
 static PyGetSetDef Custom_getsetters[] = {
     {"center_x", (getter) Custom_get_center_x, (setter) Custom_set_center_x,
      "center x", NULL},
     {NULL}  /* Sentinel */
 };
 
+/**
+ * Specify sprite mapping methods
+ */
 static PyMappingMethods Sample_as_mapping = {
-  (lenfunc)0,			/* mp_length */
-  (binaryfunc)Custom_subscript,		/* mp_subscript */
-  (objobjargproc)0,			/* mp_ass_subscript */
+  (lenfunc)0,			         /* mp_length */
+  (binaryfunc)Custom_subscript,	 /* mp_subscript */
+  (objobjargproc)0,			     /* mp_ass_subscript */
 };
 
 /**
