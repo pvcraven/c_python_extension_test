@@ -1,6 +1,7 @@
 #include <Python.h>
 #include <structmember.h>
 #include "sprite_list.h"
+#include "sprite.h"
 
 /**
  * Specify the module the Sprite class is in
@@ -26,5 +27,6 @@ PyInit_native(void)
         return NULL;
     Py_XINCREF(&SpriteListType);
     PyModule_AddObject(m, "SpriteList", (PyObject *) &SpriteListType);
+    PyModule_AddObject(m, "Sprite", (PyObject *) &SpriteListType);
     return m;
 }

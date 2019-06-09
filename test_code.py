@@ -1,15 +1,17 @@
 import arcade.native
 
 
-def test_foo():
+def test_sprites():
 
-    foo = arcade.native.SpriteList()
-    assert foo.center_x == 0.0
-    foo.center_x = 2.0
-    assert foo.center_x == 2.0
-    foo.move()
-    dir(foo)
-    x = arcade.native.SpriteList.__getitem__(foo, 1)
-    y = foo[0]
-    print(f"Hi: {x} {y}")
-    print(foo[0])
+    sprite_list = arcade.native.SpriteList()
+    assert sprite_list.center_x == 0.0
+    sprite_list.center_x = 2.0
+    assert sprite_list.center_x == 2.0
+
+    sprite_list.move()
+
+    sprite = sprite_list[0]
+    assert sprite is None
+
+    sprite = arcade.native.Sprite()
+    assert sprite is not None
