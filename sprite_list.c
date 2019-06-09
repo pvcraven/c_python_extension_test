@@ -1,5 +1,6 @@
 #include <Python.h>
 #include <structmember.h>
+#include "sprite.h"
 
 // https://github.com/hemakoppula/human_activity_anticipation/blob/master/src/pyobjs/sample.c
 
@@ -118,7 +119,11 @@ Custom_set_center_x(SpriteListObject *self, PyObject *value, void *closure)
 static PyObject*
 Custom_subscript(SpriteListObject *self, PyObject *item) {
     if (PyLong_Check(item)) {
-        Py_RETURN_NONE;
+        SpriteObject *sprite_object = (SpriteObject*) PyObject_New(SpriteObject, &SpriteType);
+        sprite_object->center_x = NULL;
+        sprite_object->center_y = NULL;
+        return PyFloat_FromDouble(3.5);
+//        return (PyObject *)sprite_object;
     } else if (PySlice_Check(item)) {
         PyErr_SetString(PyExc_TypeError, "Slicing not supported");
         return NULL;

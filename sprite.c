@@ -1,11 +1,7 @@
 #include <Python.h>
 #include <structmember.h>
+#include "sprite.h"
 
-typedef struct {
-    PyObject_HEAD
-    float *center_x;
-    float *center_y;
-} SpriteObject;
 
 /**
  * Deallocate a sprite
