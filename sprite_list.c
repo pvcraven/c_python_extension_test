@@ -2,6 +2,9 @@
 #include <structmember.h>
 #include "sprite.h"
 #include "sprite_list.h"
+
+#define SLOTS 100
+
 // https://github.com/hemakoppula/human_activity_anticipation/blob/master/src/pyobjs/sample.c
 
 typedef struct {
@@ -48,7 +51,7 @@ SpriteList_new(PyTypeObject *type, PyObject *args, PyObject *kw)
     if (!self) goto error;
 
     /* allocate attributes */
-    self->sprite_data = malloc(sizeof(SpriteListData));
+    self->sprite_data = malloc(sizeof(SpriteListData) * SLOTS);
     if (self->sprite_data == NULL) goto error;
 
     rc = 0;
@@ -66,53 +69,26 @@ static int
 SpriteList_init(SpriteListObject *self, PyObject *args, PyObject *kw)
 {
     int rc = -1;
-    self->sprite_data->center_x = 0;
-    self->sprite_data->center_y = 0;
-    self->sprite_data->angle = 0;
-    self->sprite_data->width = 0;
-    self->sprite_data->height = 0;
-    self->sprite_data->texture_coord_1 = 0;
-    self->sprite_data->texture_coord_2 = 0;
-    self->sprite_data->texture_coord_3 = 0;
-    self->sprite_data->texture_coord_4 = 0;
-    self->sprite_data->color_red = 255;
-    self->sprite_data->color_green = 255;
-    self->sprite_data->color_blue = 255;
-    self->sprite_data->color_alpha = 255;
 
+    for(int i=0; i < SLOTS; i++) {
+        self->sprite_data[i].center_x = 0;
+        self->sprite_data[i].center_y = 0;
+        self->sprite_data[i].angle = 0;
+        self->sprite_data[i].width = 0;
+        self->sprite_data[i].height = 0;
+        self->sprite_data[i].texture_coord_1 = 0;
+        self->sprite_data[i].texture_coord_2 = 0;
+        self->sprite_data[i].texture_coord_3 = 0;
+        self->sprite_data[i].texture_coord_4 = 0;
+        self->sprite_data[i].color_red = 255;
+        self->sprite_data[i].color_green = 255;
+        self->sprite_data[i].color_blue = 255;
+        self->sprite_data[i].color_alpha = 255;
+    }
     rc = 0;
 
     return rc;
 }
-
-/**
- * get_center_x method
- */
-static PyObject *
-Custom_get_center_x(SpriteListObject *self, void *closure)
-{
-    return PyFloat_FromDouble(self->sprite_data->center_x);
-}
-
-/**
- * set_center_x method
- */
-static int
-Custom_set_center_x(SpriteListObject *self, PyObject *value, void *closure)
-{
-    if (value == NULL) {
-        PyErr_SetString(PyExc_TypeError, "value is NULL");
-        return -1;
-    }
-    if (!PyFloat_Check(value)) {
-        PyErr_SetString(PyExc_TypeError,
-                        "The first attribute value must be a float");
-        return -1;
-    }
-    self->sprite_data->center_x = (float)PyFloat_AsDouble(value);
-    return 0;
-}
-
 
 /**
  * subscript method
@@ -120,10 +96,12 @@ Custom_set_center_x(SpriteListObject *self, PyObject *value, void *closure)
 static PyObject*
 Custom_subscript(SpriteListObject *self, PyObject *item) {
     if (PyLong_Check(item)) {
-        SpriteObject *sprite_object = (SpriteObject*) PyObject_New(SpriteObject, &SpriteType);
-        sprite_object = PyObject_Init((PyObject*)sprite_object, &SpriteType);
+        int index = PyLong_AsLong(item);
 
-        sprite_object->center_x = &self->sprite_data->center_x;
+        SpriteObject *sprite_object = (SpriteObject*) PyObject_New(SpriteObject, &SpriteType);
+        PyObject_Init((PyObject*)sprite_object, &SpriteType);
+
+        sprite_object->center_x = &self->sprite_data[index].center_x;
 
         return (PyObject *)sprite_object;
     } else if (PySlice_Check(item)) {
@@ -163,8 +141,6 @@ static PyMethodDef SpriteList_methods[] = {
  * Specify sprite getters/setters
  */
 static PyGetSetDef Custom_getsetters[] = {
-    {"center_x", (getter) Custom_get_center_x, (setter) Custom_set_center_x,
-     "center x", NULL},
     {NULL}  /* Sentinel */
 };
 
