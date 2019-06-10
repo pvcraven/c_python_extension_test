@@ -10,8 +10,12 @@ def test_sprites():
 
     sprite_list.move()
 
-    sprite = sprite_list[0]
-    assert sprite is None
-
     sprite = arcade.native.Sprite()
-    assert sprite is not None
+    assert type(sprite) is arcade.native.Sprite
+
+    sprite = sprite_list[0]
+    assert type(sprite) is arcade.native.Sprite
+
+    assert sprite.center_x == 2.0
+    sprite_list.center_x = 3.0
+    assert sprite.center_x == 3.0

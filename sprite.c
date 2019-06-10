@@ -74,22 +74,6 @@ Custom_set_center_x(SpriteObject *self, PyObject *value, void *closure)
 }
 
 /**
- * subscript method
- */
-static PyObject*
-Custom_subscript(SpriteObject *self, PyObject *item) {
-    if (PyLong_Check(item)) {
-        Py_RETURN_NONE;
-    } else if (PySlice_Check(item)) {
-        PyErr_SetString(PyExc_TypeError, "Slicing not supported");
-        return NULL;
-    } else {
-        PyErr_SetString(PyExc_TypeError, "Bad index type");
-        return NULL;
-    }
-}
-
-/**
  * move() method
  */
 static PyObject *
@@ -123,15 +107,6 @@ static PyGetSetDef Custom_getsetters[] = {
 };
 
 /**
- * Specify sprite mapping methods
- */
-static PyMappingMethods Sample_as_mapping = {
-  (lenfunc)0,			         /* mp_length */
-  (binaryfunc)Custom_subscript,	 /* mp_subscript */
-  (objobjargproc)0,			     /* mp_ass_subscript */
-};
-
-/**
  * Specify Sprite class info
  */
 PyTypeObject SpriteType = {
@@ -147,7 +122,6 @@ PyTypeObject SpriteType = {
     .tp_members = Sprite_members,
     .tp_methods = Sprite_methods,
     .tp_getset = Custom_getsetters,
-    .tp_as_mapping = &Sample_as_mapping,
 };
 
 
