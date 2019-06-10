@@ -74,6 +74,64 @@ Custom_set_center_x(SpriteObject *self, PyObject *value, void *closure)
 }
 
 /**
+ * get_width method
+ */
+static PyObject *
+Custom_get_width(SpriteObject *self, void *closure)
+{
+    return PyFloat_FromDouble(*self->width);
+}
+
+/**
+ * set_center_x method
+ */
+static int
+Custom_set_width(SpriteObject *self, PyObject *value, void *closure)
+{
+    if (value == NULL) {
+        PyErr_SetString(PyExc_TypeError, "value is NULL");
+        return -1;
+    }
+    if (!PyFloat_Check(value)) {
+        PyErr_SetString(PyExc_TypeError,
+                        "The first attribute value must be a float");
+        return -1;
+    }
+    *self->width = (float)PyFloat_AsDouble(value);
+    return 0;
+}
+
+/**
+ * get_height method
+ */
+static PyObject *
+Custom_get_height(SpriteObject *self, void *closure)
+{
+    return PyFloat_FromDouble(*self->height);
+}
+
+/**
+ * set_heightr_x method
+ */
+static int
+Custom_set_height(SpriteObject *self, PyObject *value, void *closure)
+{
+    if (value == NULL) {
+        PyErr_SetString(PyExc_TypeError, "value is NULL");
+        return -1;
+    }
+    if (!PyFloat_Check(value)) {
+        PyErr_SetString(PyExc_TypeError,
+                        "The first attribute value must be a float");
+        return -1;
+    }
+    *self->height = (float)PyFloat_AsDouble(value);
+    return 0;
+}
+
+
+
+/**
  * move() method
  */
 static PyObject *
@@ -101,8 +159,9 @@ static PyMethodDef Sprite_methods[] = {
  * Specify sprite getters/setters
  */
 static PyGetSetDef Custom_getsetters[] = {
-    {"center_x", (getter) Custom_get_center_x, (setter) Custom_set_center_x,
-     "center x", NULL},
+    {"center_x", (getter) Custom_get_center_x, (setter) Custom_set_center_x, "center x", NULL},
+    {"width", (getter) Custom_get_width, (setter) Custom_set_width, "width", NULL},
+    {"height", (getter) Custom_get_height, (setter) Custom_set_height, "height", NULL},
     {NULL}  /* Sentinel */
 };
 

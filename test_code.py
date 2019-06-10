@@ -18,9 +18,18 @@ def test_sprites():
     assert sprite_1.center_x == 0.0
     assert sprite_2.center_x == 0.0
 
+    sprite_1.width = 64.0
+    sprite_1.height = 64.0
+
+    sprite_2.width = 64.0
+    sprite_2.height = 64.0
+
+    sprite_list.dump()
+
     sprite_1.center_x = 3.5
     sprite_2.center_x = 4.0
 
     assert sprite_1.center_x == 3.5
     assert sprite_2.center_x == 4.0
 
+    sprite_list.dump()

@@ -3,7 +3,7 @@
 #include "sprite.h"
 #include "sprite_list.h"
 
-#define SLOTS 100
+#define SLOTS 2
 
 // https://github.com/hemakoppula/human_activity_anticipation/blob/master/src/pyobjs/sample.c
 
@@ -76,10 +76,13 @@ SpriteList_init(SpriteListObject *self, PyObject *args, PyObject *kw)
         self->sprite_data[i].angle = 0;
         self->sprite_data[i].width = 0;
         self->sprite_data[i].height = 0;
+
+        // Thesea are always the same and should be dropped.
         self->sprite_data[i].texture_coord_1 = 0;
         self->sprite_data[i].texture_coord_2 = 0;
-        self->sprite_data[i].texture_coord_3 = 0;
-        self->sprite_data[i].texture_coord_4 = 0;
+        self->sprite_data[i].texture_coord_3 = 1.0;
+        self->sprite_data[i].texture_coord_4 = 1.0;
+
         self->sprite_data[i].color_red = 255;
         self->sprite_data[i].color_green = 255;
         self->sprite_data[i].color_blue = 255;
@@ -102,6 +105,9 @@ Custom_subscript(SpriteListObject *self, PyObject *item) {
         PyObject_Init((PyObject*)sprite_object, &SpriteType);
 
         sprite_object->center_x = &self->sprite_data[index].center_x;
+        sprite_object->center_y = &self->sprite_data[index].center_y;
+        sprite_object->width = &self->sprite_data[index].width;
+        sprite_object->height = &self->sprite_data[index].height;
 
         return (PyObject *)sprite_object;
     } else if (PySlice_Check(item)) {
@@ -123,6 +129,23 @@ SpriteList_move(SpriteListObject *self)
 }
 
 /**
+ * move() method
+ */
+static PyObject *
+SpriteList_dump(SpriteListObject *self)
+{
+    int size = sizeof(SpriteListData) * SLOTS;
+    for(int i=0; i < size; i++) {
+        if (i % sizeof(SpriteListData) == 0) {
+            printf("\n");
+        }
+        unsigned char b = ((unsigned char*)self->sprite_data)[i];
+        printf("%02x ", b);
+    }
+    Py_RETURN_NONE;
+}
+
+/**
  * Hook up Sprite attributes to struct
  */
 static PyMemberDef SpriteList_members[] = {
@@ -134,6 +157,7 @@ static PyMemberDef SpriteList_members[] = {
  */
 static PyMethodDef SpriteList_methods[] = {
     {"move", (PyCFunction)SpriteList_move, METH_NOARGS, NULL},
+    {"dump", (PyCFunction)SpriteList_dump, METH_NOARGS, NULL},
     {NULL, NULL, 0, NULL}
 };
 
