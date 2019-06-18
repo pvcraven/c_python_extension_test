@@ -146,6 +146,13 @@ SpriteList_dump(SpriteListObject *self)
 }
 
 /**
+ * __len__() method
+ */
+Py_ssize_t SpriteList_length(SpriteListObject *o)
+{
+    return (Py_ssize_t)SLOTS;
+}
+/**
  * Hook up Sprite attributes to struct
  */
 static PyMemberDef SpriteList_members[] = {
@@ -171,8 +178,8 @@ static PyGetSetDef Custom_getsetters[] = {
 /**
  * Specify sprite mapping methods
  */
-static PyMappingMethods Sample_as_mapping = {
-  (lenfunc)0,			         /* mp_length */
+static PyMappingMethods SpriteListMapping = {
+  (lenfunc)SpriteList_length,    /* mp_length */
   (binaryfunc)Custom_subscript,	 /* mp_subscript */
   (objobjargproc)0,			     /* mp_ass_subscript */
 };
@@ -193,6 +200,6 @@ PyTypeObject SpriteListType = {
     .tp_members = SpriteList_members,
     .tp_methods = SpriteList_methods,
     .tp_getset = Custom_getsetters,
-    .tp_as_mapping = &Sample_as_mapping,
+    .tp_as_mapping = &SpriteListMapping,
 };
 
