@@ -3,7 +3,7 @@
 #include "sprite.h"
 #include "sprite_list.h"
 
-#define SLOTS 2
+#define SLOTS 100
 
 // https://github.com/hemakoppula/human_activity_anticipation/blob/master/src/pyobjs/sample.c
 
@@ -26,6 +26,7 @@ typedef struct {
 typedef struct {
     PyObject_HEAD
     SpriteListData* sprite_data;
+    int length;
 } SpriteListObject;
 
 /**
@@ -53,6 +54,8 @@ SpriteList_new(PyTypeObject *type, PyObject *args, PyObject *kw)
     /* allocate attributes */
     self->sprite_data = malloc(sizeof(SpriteListData) * SLOTS);
     if (self->sprite_data == NULL) goto error;
+
+    self->length = SLOTS;
 
     rc = 0;
 error:
@@ -148,9 +151,9 @@ SpriteList_dump(SpriteListObject *self)
 /**
  * __len__() method
  */
-Py_ssize_t SpriteList_length(SpriteListObject *o)
+Py_ssize_t SpriteList_length(SpriteListObject *self)
 {
-    return (Py_ssize_t)SLOTS;
+    return (Py_ssize_t)self->length;
 }
 /**
  * Hook up Sprite attributes to struct
