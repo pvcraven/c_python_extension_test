@@ -8,7 +8,7 @@
  */
 static PyModuleDef module = {
     PyModuleDef_HEAD_INIT,
-    "arcade.native",
+    "arcade_native",
     NULL,
     -1,
     NULL
@@ -18,7 +18,7 @@ static PyModuleDef module = {
  * Main method to register Sprite
  */
 PyMODINIT_FUNC
-PyInit_native(void)
+PyInit_arcade_native(void)
 {
     if (PyType_Ready(&SpriteListType) < 0)
         return NULL;
