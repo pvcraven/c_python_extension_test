@@ -2,3 +2,5 @@
 venv/
 build/
 __pycache__/
+dist/
+arcade_native.egg-info/

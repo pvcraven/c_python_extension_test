@@ -10,6 +10,8 @@
 typedef struct {
     float center_x;
     float center_y;
+    float change_x;
+    float change_y;
     float angle;
     float width;
     float height;
@@ -76,6 +78,8 @@ SpriteList_init(SpriteListObject *self, PyObject *args, PyObject *kw)
     for(int i=0; i < SLOTS; i++) {
         self->sprite_data[i].center_x = 0;
         self->sprite_data[i].center_y = 0;
+        self->sprite_data[i].change_x = 0;
+        self->sprite_data[i].change_y = 0;
         self->sprite_data[i].angle = 0;
         self->sprite_data[i].width = 0;
         self->sprite_data[i].height = 0;
@@ -109,6 +113,8 @@ Custom_subscript(SpriteListObject *self, PyObject *item) {
 
         sprite_object->center_x = &self->sprite_data[index].center_x;
         sprite_object->center_y = &self->sprite_data[index].center_y;
+        sprite_object->change_x = &self->sprite_data[index].change_x;
+        sprite_object->change_y = &self->sprite_data[index].change_y;
         sprite_object->width = &self->sprite_data[index].width;
         sprite_object->height = &self->sprite_data[index].height;
 

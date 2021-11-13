@@ -20,10 +20,15 @@ def test_sprites():
     assert sprite_1.center_y == 0.0
     assert sprite_2.center_y == 0.0
 
+    sprite_1.center_x = 1.0
+    assert sprite_1.center_x == 1.0
+
+    sprite_1.change_x = 0.0
+
     assert sprite_1.change_x == 0.0
-    # assert sprite_2.change_x == 0.0
-    # assert sprite_1.change_y == 0.0
-    # assert sprite_2.change_y == 0.0
+    assert sprite_2.change_x == 0.0
+    assert sprite_1.change_y == 0.0
+    assert sprite_2.change_y == 0.0
 
     sprite_1.width = 64.0
     sprite_1.height = 64.0

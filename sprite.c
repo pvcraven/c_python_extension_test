@@ -24,8 +24,8 @@ Sprite_new(PyTypeObject *type, PyObject *args, PyObject *kw)
 
     if (!self) goto error;
 
-    self->change_x = 0.0;
-    self->change_y = 0.0;
+//    self->change_x = 0.0;
+//    self->change_y = 0.0;
 
     rc = 0;
 error:
@@ -44,8 +44,8 @@ Sprite_init(SpriteObject *self, PyObject *args, PyObject *kw)
     int rc = -1;
 
     // Init goes here
-    self->change_x = 0.0;
-    self->change_y = 0.0;
+//    self->change_x = 0.0;
+//    self->change_y = 0.0;
 
     rc = 0;
 
@@ -114,7 +114,7 @@ Custom_set_center_y(SpriteObject *self, PyObject *value, void *closure)
 static PyObject *
 Custom_get_change_x(SpriteObject *self, void *closure)
 {
-    return PyFloat_FromDouble(self->change_x);
+    return PyFloat_FromDouble(*self->change_x);
 }
 
 /**
@@ -132,7 +132,7 @@ Custom_set_change_x(SpriteObject *self, PyObject *value, void *closure)
                         "The first attribute value must be a float");
         return -1;
     }
-    self->change_x = (float)PyFloat_AsDouble(value);
+    *self->change_x = (float)PyFloat_AsDouble(value);
     return 0;
 }
 
@@ -142,7 +142,7 @@ Custom_set_change_x(SpriteObject *self, PyObject *value, void *closure)
 static PyObject *
 Custom_get_change_y(SpriteObject *self, void *closure)
 {
-    return PyFloat_FromDouble(self->change_y);
+    return PyFloat_FromDouble(*self->change_y);
 }
 
 /**
@@ -160,7 +160,7 @@ Custom_set_change_y(SpriteObject *self, PyObject *value, void *closure)
                         "The first attribute value must be a float");
         return -1;
     }
-    self->change_y = (float)PyFloat_AsDouble(value);
+    *self->change_y = (float)PyFloat_AsDouble(value);
     return 0;
 }
 
